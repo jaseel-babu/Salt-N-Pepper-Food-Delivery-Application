@@ -20,9 +20,8 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     verificationCompleted = (PhoneAuthCredential phoneAuthCredential) async {
-      await _auth.signInWithCredential(phoneAuthCredential);
+     UserCredential a= await _auth.signInWithCredential(phoneAuthCredential); 
      
-      
     };
 
     codeSent = (String? verificationId, [int? forceResendingToken]) async {

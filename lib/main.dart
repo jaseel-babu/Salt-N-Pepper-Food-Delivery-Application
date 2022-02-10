@@ -18,9 +18,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(controlller.userIsAlreadyLogin);
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: controlller.userIsAlreadyLogin == true ? HomePage() : LoginPage(),
+    return GetBuilder<LoginController>(
+     
+      builder: (controller) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: controlller.userIsAlreadyLogin == true ? HomePage() : LoginPage(),
+        );
+      },
     );
   }
 }

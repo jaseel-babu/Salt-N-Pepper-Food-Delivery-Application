@@ -104,9 +104,7 @@ class Verification extends StatelessWidget {
                     child: const Text("Verify")),
               ),
             ),
-            Center(
-                child: TextButton(
-                    onPressed: () {}, child: const Text("Resend Otp")))
+           
           ],
         )
       ],
@@ -145,9 +143,7 @@ class Verification extends StatelessWidget {
                 child: const Text("Verify"),),
           ),
         ),
-        Center(
-          child: TextButton(onPressed: () {}, child: const Text("Resend Otp")),
-        )
+       
       ],
     );
   }
