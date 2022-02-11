@@ -6,13 +6,16 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:user_side/consts/sliderimages.dart';
 import 'package:user_side/controller/apiservices.dart';
+import 'package:user_side/controller/controller.dart';
 import 'package:user_side/controller/locationControll.dart';
 import 'package:user_side/model/sellermodel.dart';
+import 'package:user_side/view/menus/menus.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   ApiServices apiServices = ApiServices();
+  
   final locationController = Get.put(LocationController());
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,6 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          // shrinkWrap: true,
           children: [
             ListTile(
               leading: Icon(
@@ -31,7 +33,10 @@ class HomePage extends StatelessWidget {
               ),
               trailing: GetBuilder<LocationController>(
                 builder: (locationController) {
-                  return Text(locationController.currentAddress!);
+                  return Text(
+                    locationController.currentAddress!,
+                    style: TextStyle(color: Colors.blue[900], fontSize: 20),
+                  );
                 },
               ),
             ),
@@ -45,27 +50,29 @@ class HomePage extends StatelessWidget {
                       height: maxHeight * .5,
                       width: maxWidth * .3,
                       child: CarouselSlider(
-                        items: sliderItems.map((index) {
-                          return Builder(
-                            builder: (context) {
-                              return Container(
-                                width: maxWidth,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 0.5,
+                        items: sliderItems.map(
+                          (index) {
+                            return Builder(
+                              builder: (context) {
+                                return Container(
+                                  width: maxWidth,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 0.5,
+                                    ),
                                   ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Image.asset(
-                                    index,
-                                    fit: BoxFit.cover,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Image.asset(
+                                      index,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
+                                );
+                              },
+                            );
+                          },
+                        ).toList(),
                         options: CarouselOptions(
                           height: 500,
                           autoPlay: true,
@@ -74,7 +81,6 @@ class HomePage extends StatelessWidget {
                               const Duration(milliseconds: 500),
                           autoPlayCurve: Curves.decelerate,
                           enlargeCenterPage: true,
-                          scrollDirection: Axis.horizontal,
                         ),
                       ),
                     ),
@@ -96,7 +102,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             StreamBuilder(
-              stream: apiServices.getData(),
+              stream: apiServices.getStroreDetails(),
               builder: (context, snapshot) {
                 List<SellerModel> data = [];
                 if (snapshot.hasData) {
@@ -107,29 +113,38 @@ class HomePage extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: Stack(
-                          alignment: AlignmentDirectional.bottomCenter,
-                          children: [
-                            Image.asset(
-                              sliderItems[sliderItems.length - 1 - index],
+                      return InkWell(
+                        onTap: () {
+                          Get.to(
+                            () => MenusPage(
+                              sellerModel: data[index],
                             ),
-                            Container(
-                              height: maxHeight * 0.1,
-                              width: maxWidth,
-                              color: Colors.black.withOpacity(0.6),
-                              child: Center(
-                                child: Text(
-                                  data[index].shopName!,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
+                          );
+                        },
+                        child: Card(
+                          child: Stack(
+                            alignment: AlignmentDirectional.bottomCenter,
+                            children: [
+                              Image.asset(
+                                sliderItems[sliderItems.length - 1 - index],
+                              ),
+                              Container(
+                                height: maxHeight * 0.1,
+                                width: maxWidth,
+                                color: Colors.black.withOpacity(0.6),
+                                child: Center(
+                                  child: Text(
+                                    data[index].shopName!,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },

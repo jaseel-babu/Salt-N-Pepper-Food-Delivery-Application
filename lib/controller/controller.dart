@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginController extends GetxController {
   bool? userIsAlreadyLogin;
   String verificationId = "";
+  List popularImages = [];
   @override
   void onInit() {
     checkLoginOrNot();
@@ -12,7 +13,7 @@ class LoginController extends GetxController {
   }
 
   checkLoginOrNot() async {
-   final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     userIsAlreadyLogin = prefs.getBool("login");
     update();
   }

@@ -7,7 +7,7 @@ class SellerModel {
   String? lng;
   String? phone;
   String? sellerName;
-  String? sellerUid;
+  String? sellerUID;
   String? shopName;
   String? status;
   SellerModel({
@@ -17,7 +17,7 @@ class SellerModel {
     this.lng,
     this.phone,
     this.sellerName,
-    this.sellerUid,
+    this.sellerUID,
     this.shopName,
     this.status,
   });
@@ -30,7 +30,7 @@ class SellerModel {
       'lng': lng,
       'phone': phone,
       'sellerName': sellerName,
-      'sellerUid': sellerUid,
+      'sellerUID': sellerUID,
       'shopName': shopName,
       'status': status,
     };
@@ -44,7 +44,7 @@ class SellerModel {
       lng: map['lng'],
       phone: map['phone'],
       sellerName: map['sellerName'],
-      sellerUid: map['sellerUid'],
+      sellerUID: map['sellerUID'],
       shopName: map['shopName'],
       status: map['status'],
     );
