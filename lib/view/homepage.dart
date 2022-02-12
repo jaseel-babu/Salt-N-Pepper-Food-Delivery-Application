@@ -15,38 +15,51 @@ class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   ApiServices apiServices = ApiServices();
-  
+
   final locationController = Get.put(LocationController());
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.width;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        excludeHeaderSemantics: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: Icon(
+          Icons.format_align_left,
+          color: Colors.blue[900],
+          size: 30,
+        ),
+        actions: [
+          Icon(
+            Icons.location_on_outlined,
+            color: Colors.blue[900],
+            size: 30,
+          ),
+          GetBuilder<LocationController>(
+            builder: (locationController) {
+              return Center(
+                child: Text(
+                  locationController.currentAddress!,
+                  style: TextStyle(color: Colors.blue[900], fontSize: 20),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: ListView(
           children: [
-            ListTile(
-              leading: Icon(
-                Icons.format_align_left,
-                color: Colors.blue[900],
-                size: 30,
-              ),
-              trailing: GetBuilder<LocationController>(
-                builder: (locationController) {
-                  return Text(
-                    locationController.currentAddress!,
-                    style: TextStyle(color: Colors.blue[900], fontSize: 20),
-                  );
-                },
-              ),
-            ),
             CustomScrollView(
               shrinkWrap: true,
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.all(1.0),
-                    child: Container(
+                    padding:const EdgeInsets.all(1.0),
+                    child: SizedBox(
                       height: maxHeight * .5,
                       width: maxWidth * .3,
                       child: CarouselSlider(

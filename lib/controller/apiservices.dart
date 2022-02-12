@@ -20,24 +20,36 @@ class ApiServices {
       );
     }).toList();
   }
- List<CategoryModel> menuItems(QuerySnapshot snapshot) {
-    return snapshot.docs.map((e) {
-      return CategoryModel(
-        aboutMenu: (e.data() as dynamic)["aboutMenu"].toString(),
-        menuID: (e.data() as dynamic)["menuID"].toString(),
-        publishedDate: (e.data() as dynamic)["publishedDate"].toString(),
-        sellerUID: (e.data() as dynamic)["sellerUID"].toString(),
-        thumbnail: (e.data() as dynamic)["thumbnail"].toString(),
-      status: (e.data() as dynamic)["status"].toString(),
-       
-        title: (e.data() as dynamic)["title"].toString(),
-      );
-    }).toList();
+
+  List<CategoryModel> menuItems(QuerySnapshot snapshot) {
+    return snapshot.docs.map(
+      (e) {
+        return CategoryModel(
+          aboutMenu: (e.data() as dynamic)["aboutMenu"].toString(),
+          menuID: (e.data() as dynamic)["menuID"].toString(),
+          publishedDate: (e.data() as dynamic)["publishedDate"].toString(),
+          sellerUID: (e.data() as dynamic)["sellerUID"].toString(),
+          thumbnail: (e.data() as dynamic)["thumbnail"].toString(),
+          status: (e.data() as dynamic)["status"].toString(),
+          title: (e.data() as dynamic)["title"].toString(),
+        );
+      },
+    ).toList();
   }
- Stream getStroreDetails()  {return
-    firebaseFirestore.collection("sellers").snapshots().map(storeDetails);
+
+  Stream getStroreDetails() {
+    return firebaseFirestore
+        .collection("sellers")
+        .snapshots()
+        .map(storeDetails);
   }
-  Stream getMenus(String uid)  {return
-    firebaseFirestore.collection("sellers").doc(uid).collection("menus").snapshots().map(menuItems);
+
+  Stream getMenus(String uid) {
+    return firebaseFirestore
+        .collection("sellers")
+        .doc(uid)
+        .collection("menus")
+        .snapshots()
+        .map(menuItems);
   }
 }
