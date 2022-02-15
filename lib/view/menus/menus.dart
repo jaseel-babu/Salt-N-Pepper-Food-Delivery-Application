@@ -5,6 +5,7 @@ import 'package:user_side/controller/apiservices.dart';
 import 'package:user_side/controller/controller.dart';
 import 'package:user_side/model/catagorymodel.dart';
 import 'package:user_side/model/sellermodel.dart';
+import 'package:user_side/view/items/items.dart';
 
 class MenusPage extends StatelessWidget {
   MenusPage({Key? key, required this.sellerModel}) : super(key: key);
@@ -13,7 +14,6 @@ class MenusPage extends StatelessWidget {
   ApiServices apiServices = ApiServices();
   @override
   Widget build(BuildContext context) {
-    print(sellerModel.sellerUID);
     final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -47,45 +47,55 @@ class MenusPage extends StatelessWidget {
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   controller.popularImages.add(data[index].thumbnail);
-                  return Card(
-                    child: Stack(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      children: [
-                        Container(
-                          width: maxWidth,
-                          height: maxHeight * .5,
-                          child: Image.network(
-                            data[index].thumbnail!,
-                            fit: BoxFit.fill,
-                            frameBuilder: (context, child, frame,
-                                    wasSynchronouslyLoaded) =>
-                                child,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                          ),
-                        ),
-                        Container(
-                          height: maxHeight * 0.1,
-                          width: maxWidth,
-                          color: Colors.black.withOpacity(0.6),
-                          child: Center(
-                            child: Text(
-                              data[index].title!,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(() => ItemsPage(
+                            data: data[index],
+                            sellerId: sellerModel.sellerUID,
+                          ));
+                    },
+                    child: 
+
+                    Card(
+                      child: Stack(
+                        alignment: AlignmentDirectional.bottomCenter,
+                        children: [
+                          Container(
+                            width: maxWidth,
+                            height: maxHeight * .5,
+                            child: Image.network(
+                              data[index].thumbnail!,
+                              fit: BoxFit.fill,
+                              frameBuilder: (context, child, frame,
+                                      wasSynchronouslyLoaded,) =>
+                                  child,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
                             ),
                           ),
-                        )
-                      ],
+                          Container(
+                            height: maxHeight * 0.1,
+                            width: maxWidth,
+                            color: Colors.black.withOpacity(0.6),
+                            child: Center(
+                              child: Text(
+                                data[index].title!,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },

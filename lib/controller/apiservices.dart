@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:user_side/model/catagorymodel.dart';
+import 'package:user_side/model/itemmodel.dart';
 import 'package:user_side/model/sellermodel.dart';
 
 class ApiServices {
@@ -36,6 +37,22 @@ class ApiServices {
       },
     ).toList();
   }
+    List<ItemModel> items(QuerySnapshot snapshot) {
+    return snapshot.docs.map(
+      (e) {
+        return ItemModel(discription: (e.data() as dynamic)["discription"].toString() ,
+          aboutItem: (e.data() as dynamic)["aboutItem"].toString(),
+          itemId: (e.data() as dynamic)["itemID"].toString(),
+          publishedDate: (e.data() as dynamic)["publishedDate"].toString(),
+          sellerUID: (e.data() as dynamic)["sellerUID"].toString(),
+          thumbnail: (e.data() as dynamic)["thumbnail"].toString(),
+          status: (e.data() as dynamic)["status"].toString(),
+          title: (e.data() as dynamic)["title"].toString(),
+          size: (e.data() as dynamic)["size"]as Map,
+        );
+      },
+    ).toList();
+  }
 
   Stream getStroreDetails() {
     return firebaseFirestore
@@ -51,5 +68,13 @@ class ApiServices {
         .collection("menus")
         .snapshots()
         .map(menuItems);
+  }
+    Stream getItems(String uid,String MenuId) {
+    return firebaseFirestore
+        .collection("sellers")
+        .doc(uid)
+        .collection("menus").doc(MenuId).collection("items")
+        .snapshots()
+        .map(items);
   }
 }
