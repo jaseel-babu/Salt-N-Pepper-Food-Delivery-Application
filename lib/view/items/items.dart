@@ -37,84 +37,113 @@ class ItemsPage extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: data.length,
                 itemBuilder: (context, index) {
+                  List sizeChart = data[index].size!.keys.toList();
                   // controller.popularImages.add(data[index].thumbnail);
                   return ListTile(
-                      title: SizedBox(
-                        width: 100,
-                        child: Text(
-                          data[index].title!,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, letterSpacing: 0.5),
-                        ),
+                    title: SizedBox(
+                      width: 100,
+                      child: Text(
+                        data[index].title!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, letterSpacing: 0.5),
                       ),
-                      subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...sizeChart.map(
+                          (e) {
+                            return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "INR ${data[index].size!["full"]}",
+                                  e.toString(),
                                   style: const TextStyle(color: Colors.black),
                                 ),
                                 Text(
-                                  " ${data[index].discription}",
+                                  " ${data[index].size![e]}",
                                   style: const TextStyle(color: Colors.black),
                                 ),
                               ],
-                            )
-                          ],
-                          ),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                    leading: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: ClipRRect(
+                        child: Image.network(
+                          data[index].thumbnail!,
+                          fit: BoxFit.fill,
+                          frameBuilder: (
+                            context,
+                            child,
+                            frame,
+                            wasSynchronouslyLoaded,
+                          ) =>
+                              child,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
 
-                      // Card(
-                      //   child: Stack(
-                      //     alignment: AlignmentDirectional.bottomCenter,
-                      //     children: [
-                      //       Container(
-                      //         width: maxWidth,
-                      //         height: maxHeight * .5,
-                      //         child: Image.network(
-                      //           data[index].thumbnail!,
-                      //           fit: BoxFit.fill,
-                      //           frameBuilder: (
-                      //             context,
-                      //             child,
-                      //             frame,
-                      //             wasSynchronouslyLoaded,
-                      //           ) =>
-                      //               child,
-                      //           loadingBuilder: (context, child, loadingProgress) {
-                      //             if (loadingProgress == null) {
-                      //               return child;
-                      //             }
-                      //             return const Center(
-                      //               child: CircularProgressIndicator(),
-                      //             );
-                      //           },
-                      //         ),
-                      //       ),
-                      //       Container(
-                      //         height: maxHeight * 0.1,
-                      //         width: maxWidth,
-                      //         color: Colors.black.withOpacity(0.6),
-                      //         child: Center(
-                      //           child: Text(
-                      //             data[index].title!,
-                      //             style: const TextStyle(
-                      //               color: Colors.white,
-                      //               fontSize: 22,
-                      //               fontWeight: FontWeight.bold,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       )
-                      //     ],
-                      //   ),
-                      // );
-
-                      );
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    // Card(
+                    //   child: Stack(
+                    //     alignment: AlignmentDirectional.bottomCenter,
+                    //     children: [
+                    //       Container(
+                    //         width: maxWidth,
+                    //         height: maxHeight * .5,
+                    //         child: Image.network(
+                    //           data[index].thumbnail!,
+                    //           fit: BoxFit.fill,
+                    //           frameBuilder: (
+                    //             context,
+                    //             child,
+                    //             frame,
+                    //             wasSynchronouslyLoaded,
+                    //           ) =>
+                    //               child,
+                    //           loadingBuilder: (context, child, loadingProgress) {
+                    //             if (loadingProgress == null) {
+                    //               return child;
+                    //             }
+                    //             return const Center(
+                    //               child: CircularProgressIndicator(),
+                    //             );
+                    //           },
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         height: maxHeight * 0.1,
+                    //         width: maxWidth,
+                    //         color: Colors.black.withOpacity(0.6),
+                    //         child: Center(
+                    //           child: Text(
+                    //             data[index].title!,
+                    //             style: const TextStyle(
+                    //               color: Colors.white,
+                    //               fontSize: 22,
+                    //               fontWeight: FontWeight.bold,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // );
+                  );
                 },
               );
             }
