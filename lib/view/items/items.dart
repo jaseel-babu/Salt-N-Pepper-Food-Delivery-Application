@@ -33,117 +33,154 @@ class ItemsPage extends StatelessWidget {
               data = snapshot.data as List<ItemModel>;
 
               return ListView.builder(
+                // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //     crossAxisCount: 2),
                 physics: const ScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   List sizeChart = data[index].size!.keys.toList();
                   // controller.popularImages.add(data[index].thumbnail);
-                  return ListTile(
-                    title: SizedBox(
-                      width: 100,
-                      child: Text(
-                        data[index].title!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                  return Container(
+                    margin: const EdgeInsets.only(left: 40, right: 40, top: 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        10,
                       ),
+                      color: Colors.blue[50],
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    width: maxWidth,
+                    height: maxHeight * .8,
+                    child: Column(
+                      //  alignment: AlignmentDirectional.bottomCenter,
                       children: [
-                        ...sizeChart.map(
-                          (e) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  e.toString(),
-                                  style: const TextStyle(color: Colors.black),
-                                ),
-                                Text(
-                                  " ${data[index].size![e]}",
-                                  style: const TextStyle(color: Colors.black),
-                                ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: maxHeight * .45,
+                            width: maxWidth * .45,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(10.0, 10.0),
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                    color: Colors.blue.shade100),
+                                BoxShadow(
+                                    offset: Offset(-10.0, -10.0),
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                    color: Colors.blue.shade100),
                               ],
-                            );
-                          },
-                        )
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: SizedBox(
+                              width: maxWidth * .4,
+                              height: maxHeight * 0.4,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Image.network(
+                                  data[index].thumbnail!,
+                                  fit: BoxFit.cover,
+                                  frameBuilder: (
+                                    context,
+                                    child,
+                                    frame,
+                                    wasSynchronouslyLoaded,
+                                  ) =>
+                                      child,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    }
+
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 100,
+                          child: Text(
+                            data[index].title!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,),
+                          ),
+                        ),
                       ],
                     ),
-                    leading: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: ClipRRect(
-                        child: Image.network(
-                          data[index].thumbnail!,
-                          fit: BoxFit.fill,
-                          frameBuilder: (
-                            context,
-                            child,
-                            frame,
-                            wasSynchronouslyLoaded,
-                          ) =>
-                              child,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    // Card(
-                    //   child: Stack(
-                    //     alignment: AlignmentDirectional.bottomCenter,
-                    //     children: [
-                    //       Container(
-                    //         width: maxWidth,
-                    //         height: maxHeight * .5,
-                    //         child: Image.network(
-                    //           data[index].thumbnail!,
-                    //           fit: BoxFit.fill,
-                    //           frameBuilder: (
-                    //             context,
-                    //             child,
-                    //             frame,
-                    //             wasSynchronouslyLoaded,
-                    //           ) =>
-                    //               child,
-                    //           loadingBuilder: (context, child, loadingProgress) {
-                    //             if (loadingProgress == null) {
-                    //               return child;
-                    //             }
-                    //             return const Center(
-                    //               child: CircularProgressIndicator(),
-                    //             );
-                    //           },
-                    //         ),
-                    //       ),
-                    //       Container(
-                    //         height: maxHeight * 0.1,
-                    //         width: maxWidth,
-                    //         color: Colors.black.withOpacity(0.6),
-                    //         child: Center(
-                    //           child: Text(
-                    //             data[index].title!,
-                    //             style: const TextStyle(
-                    //               color: Colors.white,
-                    //               fontSize: 22,
-                    //               fontWeight: FontWeight.bold,
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // );
                   );
+                  //  ListTile(
+                  //   title: SizedBox(
+                  //     width: 100,
+                  //     child: Text(
+                  //       data[index].title!,
+                  //       maxLines: 1,
+                  //       overflow: TextOverflow.ellipsis,
+                  //       style: const TextStyle(
+                  //           fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                  //     ),
+                  //   ),
+                  //   subtitle: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       ...sizeChart.map(
+                  //         (e) {
+                  //           return Row(
+                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //             children: [
+                  //               Text(
+                  //                 e.toString(),
+                  //                 style: const TextStyle(color: Colors.black),
+                  //               ),
+                  //               Text(
+                  //                 " ${data[index].size![e]}",
+                  //                 style: const TextStyle(color: Colors.black),
+                  //               ),
+                  //             ],
+                  //           );
+                  //         },
+                  //       )
+                  //     ],
+                  //   ),
+                  //   leading: SizedBox(
+                  //     width: 50,
+                  //     height: 50,
+                  //     child: ClipRRect(
+                  //       child: Image.network(
+                  //         data[index].thumbnail!,
+                  //         fit: BoxFit.fill,
+                  //         frameBuilder: (
+                  //           context,
+                  //           child,
+                  //           frame,
+                  //           wasSynchronouslyLoaded,
+                  //         ) =>
+                  //             child,
+                  //         loadingBuilder: (context, child, loadingProgress) {
+                  //           if (loadingProgress == null) {
+                  //             return child;
+                  //           }
+
+                  //           return const Center(
+                  //             child: CircularProgressIndicator(),
+                  //           );
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ),
+
+                  // );
                 },
               );
             }
