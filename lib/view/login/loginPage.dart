@@ -55,7 +55,7 @@ class LoginPage extends StatelessWidget {
                   height: maxHeight,
                   child: ListView(
                     children: [
-                      loginimg(maxHeight / 2),
+                      // loginimg(maxHeight / 2),
                       field(context, maxWidth),
                     ],
                   ),

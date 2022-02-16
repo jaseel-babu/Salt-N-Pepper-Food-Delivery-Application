@@ -40,13 +40,14 @@ class ItemsPage extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: data.length,
                 itemBuilder: (context, index) {
-                 
                   // controller.popularImages.add(data[index].thumbnail);
                   return InkWell(
                     onTap: () {
-                      Get.to(() => ItemDetailPage(
-                            itemDetail: data[index],
-                          ),);
+                      Get.to(
+                        () => ItemDetailPage(
+                          itemDetail: data[index],
+                        ),
+                      );
                     },
                     child: Container(
                       margin:
