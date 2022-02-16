@@ -15,7 +15,7 @@ class MenusPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
-    final maxHeight = MediaQuery.of(context).size.width;
+    final maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -54,22 +54,25 @@ class MenusPage extends StatelessWidget {
                             sellerId: sellerModel.sellerUID,
                           ));
                     },
-                    child: 
-
-                    Card(
+                    child: Card(
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: [
                           Container(
                             width: maxWidth,
-                            height: maxHeight * .5,
+                            height: maxHeight * .3,
                             child: Image.network(
                               data[index].thumbnail!,
                               fit: BoxFit.fill,
-                              frameBuilder: (context, child, frame,
-                                      wasSynchronouslyLoaded,) =>
+                              frameBuilder: (
+                                context,
+                                child,
+                                frame,
+                                wasSynchronouslyLoaded,
+                              ) =>
                                   child,
-                              loadingBuilder: (context, child, loadingProgress) {
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
                                 if (loadingProgress == null) {
                                   return child;
                                 }

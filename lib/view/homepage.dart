@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
-    final maxHeight = MediaQuery.of(context).size.width;
+    final maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -58,9 +58,9 @@ class HomePage extends StatelessWidget {
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding:const EdgeInsets.all(1.0),
+                    padding: const EdgeInsets.all(1.0),
                     child: SizedBox(
-                      height: maxHeight * .5,
+                      height: maxHeight * .3,
                       width: maxWidth * .3,
                       child: CarouselSlider(
                         items: sliderItems.map(
@@ -163,7 +163,7 @@ class HomePage extends StatelessWidget {
                     },
                   );
                 }
-                return const Center(child:  CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               },
             )
           ],
