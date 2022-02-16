@@ -6,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:user_side/consts/sliderimages.dart';
 import 'package:user_side/controller/apiservices.dart';
-import 'package:user_side/controller/controller.dart';
 import 'package:user_side/controller/locationControll.dart';
 import 'package:user_side/model/sellermodel.dart';
 import 'package:user_side/view/menus/menus.dart';
@@ -17,6 +16,12 @@ class HomePage extends StatelessWidget {
   ApiServices apiServices = ApiServices();
 
   final locationController = Get.put(LocationController());
+
+
+
+
+  /// this is homescreen//////////////////////////////////////
+  /// 
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
