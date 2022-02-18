@@ -1,22 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_side/model/itemmodel.dart';
 
-class ItemDetailPage extends StatelessWidget {
+class ItemDetailPage extends StatefulWidget {
   ItemDetailPage({Key? key, required this.itemDetail}) : super(key: key);
   ItemModel itemDetail;
-  final paymentItems = [
-    PaymentItem(
-      label: 'Total',
-      amount: "100.0",
-      status: PaymentItemStatus.final_price,
-    )
-  ];
+
+  @override
+  State<ItemDetailPage> createState() => _ItemDetailPageState();
+}
+
+class _ItemDetailPageState extends State<ItemDetailPage> {
+  Razorpay? razorpay;
+  @override
+  void initState() {
+    razorpay = Razorpay();
+    razorpay!.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+        (PaymentSuccessResponse response) {
+      print(response.paymentId);
+      print("success");
+    });
+    razorpay!.on(Razorpay.EVENT_PAYMENT_ERROR,
+        (PaymentFailureResponse response) {
+      print(response.message);
+      print("Error");
+    });
+    razorpay!.on(Razorpay.EVENT_EXTERNAL_WALLET,
+        (ExternalWalletResponse response) {
+      print(response.walletName);
+      print("wallet");
+    });
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.height;
-    List sizeChart = itemDetail.size!.keys.toList();
+    List sizeChart = widget.itemDetail.size!.keys.toList();
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -30,7 +53,7 @@ class ItemDetailPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
-                  itemDetail.thumbnail!,
+                  widget.itemDetail.thumbnail!,
                   fit: BoxFit.cover,
                   frameBuilder: (
                     context,
@@ -57,7 +80,7 @@ class ItemDetailPage extends StatelessWidget {
                 SizedBox(
                   width: 100,
                   child: Text(
-                    itemDetail.title!,
+                    widget.itemDetail.title!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -76,31 +99,22 @@ class ItemDetailPage extends StatelessWidget {
                           style: const TextStyle(color: Colors.black),
                         ),
                         Text(
-                          " ${itemDetail.size![e]}",
+                          " ${widget.itemDetail.size![e]}",
                           style: const TextStyle(color: Colors.black),
                         ),
                       ],
                     );
                   },
                 ),
-               
-                FutureBuilder<bool>(
-                  future: _payClient.userCanPay(PayProvider.google_pay),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.data == true) {
-                        return RawGooglePayButton(
-                            style: GooglePayButtonStyle.black,
-                            type: GooglePayButtonType.pay,
-                            onPressed: onGooglePayPressed);
-                      } else {
-                        return SizedBox();
-                        // userCanPay returned false
-                        // Consider showing an alternative payment method
-                      }
-                    }
-                    return SizedBox();
-                  },
+                Container(
+                  width: maxWidth / 1.4,
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      checkout();
+                    },
+                    child: const Text("buy now"),
+                  ),
                 )
               ],
             )
@@ -110,20 +124,21 @@ class ItemDetailPage extends StatelessWidget {
     );
   }
 
-  void onGooglePayPressed() async {
-    final result = await _payClient.showPaymentSelector(
-      provider: PayProvider.google_pay,
-      paymentItems: paymentItems,
-    );
-    // Send the resulting Google Pay token to your server / PSP
-  }
-
-  Pay _payClient = Pay.withAssets([
-    // 'default_payment_profile_apple_pay.json',
-    'gpay.json'
-  ]);
-  void onGooglePayResult(paymentResult) {
-    print(paymentResult);
-    // Send the resulting Google Pay token to your server / PSP
+  void checkout() async {
+    var options = {
+      'key': 'rzp_test_8sF0I6V5fjFowv',
+      'amount': '2500',
+      'name': 'jaseel',
+      'description': 'Payment',
+      'prefill': {'contact': '7559074583', 'email': 'shebinpr126@gmail.com'},
+      'external': {
+        'wallets': ['paytm'],
+      },
+    };
+    try {
+      razorpay!.open(options);
+    } catch (e) {
+      print(e);
+    }
   }
 }

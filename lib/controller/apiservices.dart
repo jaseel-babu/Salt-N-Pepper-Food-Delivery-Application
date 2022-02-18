@@ -6,7 +6,16 @@ import 'package:user_side/model/sellermodel.dart';
 class ApiServices {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  List<SellerModel> storeDetails(QuerySnapshot snapshot) {
+
+  //////////Fetch Store Details//////
+  
+  Stream getStroreDetails() {
+    return firebaseFirestore
+        .collection("sellers")
+        .snapshots()
+        .map(storeDetails);
+  }
+ List<SellerModel> storeDetails(QuerySnapshot snapshot) {
     return snapshot.docs.map((e) {
       return SellerModel(
         address: (e.data() as dynamic)["address"].toString(),
@@ -21,7 +30,16 @@ class ApiServices {
       );
     }).toList();
   }
-
+ //////////Fetch Menu Items//////
+  Stream getMenus(String uid) {
+    return firebaseFirestore
+        .collection("sellers")
+        .doc(uid)
+        .collection("menus")
+        .snapshots()
+        .map(menuItems);
+  }
+   
   List<CategoryModel> menuItems(QuerySnapshot snapshot) {
     return snapshot.docs.map(
       (e) {
@@ -37,7 +55,15 @@ class ApiServices {
       },
     ).toList();
   }
-    List<ItemModel> items(QuerySnapshot snapshot) {
+   //////////Fetch Items//////
+    Stream getItems(String uid,String MenuId) {
+    return firebaseFirestore
+        .collection("sellers")
+        .doc(uid)
+        .collection("menus").doc(MenuId).collection("items")
+        .snapshots()
+        .map(items);
+  }List<ItemModel> items(QuerySnapshot snapshot) {
     return snapshot.docs.map(
       (e) {
         return ItemModel(discription: (e.data() as dynamic)["discription"].toString() ,
@@ -54,27 +80,4 @@ class ApiServices {
     ).toList();
   }
 
-  Stream getStroreDetails() {
-    return firebaseFirestore
-        .collection("sellers")
-        .snapshots()
-        .map(storeDetails);
-  }
-
-  Stream getMenus(String uid) {
-    return firebaseFirestore
-        .collection("sellers")
-        .doc(uid)
-        .collection("menus")
-        .snapshots()
-        .map(menuItems);
-  }
-    Stream getItems(String uid,String MenuId) {
-    return firebaseFirestore
-        .collection("sellers")
-        .doc(uid)
-        .collection("menus").doc(MenuId).collection("items")
-        .snapshots()
-        .map(items);
-  }
 }

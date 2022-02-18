@@ -20,11 +20,10 @@ class HomePage extends StatelessWidget {
 
 
 
-  /// this is homescreen//////////////////////////////////////
-  /// 
+
   @override
   Widget build(BuildContext context) {
-    //nlfjkl;jsd;dfj;lsadjd';fjas';dlkf';ladsk'f;lj';ldsf';laj
+   
     final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(

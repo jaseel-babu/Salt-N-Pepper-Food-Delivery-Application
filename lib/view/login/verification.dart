@@ -12,7 +12,7 @@ class Verification extends StatelessWidget {
   Verification({
     Key? key,
   }) : super(key: key);
-   signInWithPhoneNumber() async {
+  signInWithPhoneNumber() async {
     try {
       final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: controller.verificationId,
@@ -21,14 +21,15 @@ class Verification extends StatelessWidget {
 
       final User user = (await _auth.signInWithCredential(credential)).user!;
 
-      
-    final  SharedPreferences prefs = await SharedPreferences.getInstance();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("login", true);
       Get.off(() => HomePage());
     } catch (e) {
-      Get.snackbar("Invalid OTP", "PLEASE ENTER VALID OTP",
-          snackPosition: SnackPosition.BOTTOM,);
-     
+      Get.snackbar(
+        "Invalid OTP",
+        "PLEASE ENTER VALID OTP",
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
@@ -104,7 +105,6 @@ class Verification extends StatelessWidget {
                     child: const Text("Verify")),
               ),
             ),
-           
           ],
         )
       ],
@@ -134,16 +134,16 @@ class Verification extends StatelessWidget {
           child: SizedBox(
             width: maxWidth / 1.4,
             child: ElevatedButton(
-                onPressed: () {
-                  if (pinEditingController.text.length != 6) {
-                    Get.snackbar("Invalid", "Please Enter Valid Otp");
-                  }
-                  signInWithPhoneNumber();
-                },
-                child: const Text("Verify"),),
+              onPressed: () {
+                if (pinEditingController.text.length != 6) {
+                  Get.snackbar("Invalid", "Please Enter Valid Otp");
+                }
+                signInWithPhoneNumber();
+              },
+              child: const Text("Verify"),
+            ),
           ),
         ),
-       
       ],
     );
   }
