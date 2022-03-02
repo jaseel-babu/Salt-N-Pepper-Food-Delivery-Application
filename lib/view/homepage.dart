@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:user_side/consts/sliderimages.dart';
 import 'package:user_side/controller/apiservices.dart';
 import 'package:user_side/controller/locationControll.dart';
-import 'package:user_side/model/global.dart';
 import 'package:user_side/model/sellermodel.dart';
 import 'package:user_side/view/menus/menus.dart';
 
@@ -20,7 +19,7 @@ class HomePage extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    //nlfjkl;jsd;dfj;lsadjd';fjas';dlkf';ladsk'f;lj';ldsf';laj
+   
     final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(

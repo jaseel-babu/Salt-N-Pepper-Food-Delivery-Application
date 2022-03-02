@@ -72,7 +72,8 @@ class ItemDetailPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
-                  itemDetail.thumbnail!,
+                  // ignore: noop_primitive_operations
+                  itemDetail.thumbnail!.toString(),
                   fit: BoxFit.cover,
                   frameBuilder: (
                     context,
