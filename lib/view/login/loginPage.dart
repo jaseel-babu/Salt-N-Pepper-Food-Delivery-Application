@@ -1,11 +1,10 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:user_side/controller/controller.dart';
 import 'package:user_side/view/login/verification.dart';
 
+// ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
@@ -25,21 +24,21 @@ class LoginPage extends StatelessWidget {
     };
 
     codeSent = (String? verificationId, [int? forceResendingToken]) async {
-      print("check your phone");
+      // print("check your phone");
       controller.verificationId = verificationId!;
        Get.off(() => Verification());
-      print(controller.verificationId);
+      // print(controller.verificationId);
     };
 
     verificationFailed = (FirebaseAuthException authException) {
       Get.snackbar("Failed", "Please Enter valid Mobile Number",
-          snackPosition: SnackPosition.BOTTOM);
-      print(authException.message);
+          snackPosition: SnackPosition.BOTTOM,);
+      // print(authException.message);
     };
 
     codeAutoRetrievalTimeout = (String verificationId) {
       controller.verificationId = verificationId;
-      print(controller.verificationId);
+      // print(controller.verificationId);
     };
 
     final oriantion = MediaQuery.of(context).orientation;
@@ -127,7 +126,7 @@ class LoginPage extends StatelessWidget {
                       verificationCompleted: verificationCompleted!,
                       verificationFailed: verificationFailed!,
                       codeSent: codeSent!,
-                      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout!);
+                      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout!,);
                 } catch (e) {
                   print("Failed to Verify Phone Number: ${e}");
                 }

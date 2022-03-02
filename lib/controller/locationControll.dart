@@ -18,7 +18,7 @@ class LocationController extends GetxController {
       permission = await Geolocator.requestPermission();
     }
     return Geolocator.getCurrentPosition(
-       desiredAccuracy : LocationAccuracy.bestForNavigation);
+       desiredAccuracy : LocationAccuracy.bestForNavigation,);
   }
 
   getAddress(double latitude, double longitude) async {
@@ -26,7 +26,7 @@ class LocationController extends GetxController {
       final List<Placemark> placemark = await GeocodingPlatform.instance
           .placemarkFromCoordinates(latitude, longitude);
       final Placemark place = placemark[0];
-      print(placemark[0]);
+      // print(placemark[0]);
       update();
       currentAddress = place.locality;
     } catch (e) {

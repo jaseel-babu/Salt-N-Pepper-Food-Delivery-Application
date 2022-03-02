@@ -52,13 +52,13 @@ class MenusPage extends StatelessWidget {
                       Get.to(() => ItemsPage(
                             data: data[index],
                             sellerId: sellerModel.sellerUID,
-                          ));
+                          ),);
                     },
                     child: Card(
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: [
-                          Container(
+                          SizedBox(
                             width: maxWidth,
                             height: maxHeight * .3,
                             child: Image.network(

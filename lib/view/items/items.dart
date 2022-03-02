@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:user_side/controller/apiservices.dart';
 import 'package:user_side/model/catagorymodel.dart';
 import 'package:user_side/model/itemmodel.dart';
 import 'package:user_side/view/detail/itemdetail.dart';
 
-import '../../controller/apiservices.dart';
-import '../../model/sellermodel.dart';
-
+// ignore: must_be_immutable
 class ItemsPage extends StatelessWidget {
   ItemsPage({Key? key, required this.data, required this.sellerId})
       : super(key: key);
@@ -20,6 +19,40 @@ class ItemsPage extends StatelessWidget {
     final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Itemsss",
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.shopping_cart,
+              // size: 30,
+              color: Colors.yellow,
+            ),
+          ),
+          Stack(
+            children: const [
+              Icon(
+                Icons.brightness_1,
+                size: 20,
+                color: Colors.green,
+              ),
+              Positioned(
+                top: 3,
+                right: 6,
+                child: Center(
+                  child: Text(
+                    "0",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
       body: SafeArea(
         child: StreamBuilder(
           stream: apiServices.getItems(sellerId!, data.menuID!),
@@ -31,6 +64,7 @@ class ItemsPage extends StatelessWidget {
               );
             }
             if (snapshot.hasData) {
+              // ignore: cast_nullable_to_non_nullable
               data = snapshot.data as List<ItemModel>;
 
               return ListView.builder(
@@ -141,67 +175,6 @@ class ItemsPage extends StatelessWidget {
                       ),
                     ),
                   );
-                  //  ListTile(
-                  //   title: SizedBox(
-                  //     width: 100,
-                  //     child: Text(
-                  //       data[index].title!,
-                  //       maxLines: 1,
-                  //       overflow: TextOverflow.ellipsis,
-                  //       style: const TextStyle(
-                  //           fontWeight: FontWeight.bold, letterSpacing: 0.5),
-                  //     ),
-                  //   ),
-                  //   subtitle: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       ...sizeChart.map(
-                  //         (e) {
-                  //           return Row(
-                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //             children: [
-                  //               Text(
-                  //                 e.toString(),
-                  //                 style: const TextStyle(color: Colors.black),
-                  //               ),
-                  //               Text(
-                  //                 " ${data[index].size![e]}",
-                  //                 style: const TextStyle(color: Colors.black),
-                  //               ),
-                  //             ],
-                  //           );
-                  //         },
-                  //       )
-                  //     ],
-                  //   ),
-                  //   leading: SizedBox(
-                  //     width: 50,
-                  //     height: 50,
-                  //     child: ClipRRect(
-                  //       child: Image.network(
-                  //         data[index].thumbnail!,
-                  //         fit: BoxFit.fill,
-                  //         frameBuilder: (
-                  //           context,
-                  //           child,
-                  //           frame,
-                  //           wasSynchronouslyLoaded,
-                  //         ) =>
-                  //             child,
-                  //         loadingBuilder: (context, child, loadingProgress) {
-                  //           if (loadingProgress == null) {
-                  //             return child;
-                  //           }
-
-                  //           return const Center(
-                  //             child: CircularProgressIndicator(),
-                  //           );
-                  //         },
-                  //       ),
-                  //     ),
-                  //   ),
-
-                  // );
                 },
               );
             }

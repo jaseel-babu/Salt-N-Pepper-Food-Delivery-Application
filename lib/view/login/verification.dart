@@ -1,35 +1,49 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:get/get.dart';
+import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_side/controller/controller.dart';
 import 'package:user_side/view/homepage.dart';
 
+// ignore: must_be_immutable
 class Verification extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Verification({
     Key? key,
   }) : super(key: key);
-   signInWithPhoneNumber() async {
+
+  User? user;
+  signInWithPhoneNumber() async {
     try {
       final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: controller.verificationId,
         smsCode: pinEditingController.text,
       );
 
-      final User user = (await _auth.signInWithCredential(credential)).user!;
+      user = (await _auth.signInWithCredential(credential)).user;
 
-      
-    final  SharedPreferences prefs = await SharedPreferences.getInstance();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("login", true);
       Get.off(() => HomePage());
+      saveDataToFirestore(user!);
     } catch (e) {
-      Get.snackbar("Invalid OTP", "PLEASE ENTER VALID OTP",
-          snackPosition: SnackPosition.BOTTOM,);
-     
+      Get.snackbar(
+        "Invalid OTP",
+        "PLEASE ENTER VALID OTP",
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
+  }
+
+ Future saveDataToFirestore(User currentUser) async {
+    FirebaseFirestore.instance.collection("users").doc(currentUser.uid).set({
+      "userUID": currentUser.uid,
+    });
+    final SharedPreferences preferences =
+        await SharedPreferences.getInstance();
+   await preferences.setString("uid", currentUser.uid);
   }
 
   TextEditingController pinEditingController = TextEditingController();
@@ -64,7 +78,7 @@ class Verification extends StatelessWidget {
 
   Row landscapeMode(BuildContext context, double maxHeight, double maxWidth) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      // mainAxisAlignment: MainAxisAlignment.start,
       children: [
         imgpart(context, maxHeight * 1.2),
         Column(
@@ -78,7 +92,7 @@ class Verification extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
+            SizedBox(
               width: maxWidth / 1.5,
               height: maxHeight / 4,
               child: PinInputTextField(
@@ -95,16 +109,19 @@ class Verification extends StatelessWidget {
               child: SizedBox(
                 width: maxWidth / 2,
                 child: ElevatedButton(
-                    onPressed: () {
-                      pinEditingController.text.length != 6
-                          ? Get.snackbar("Invalid", "Please Enter Valid Otp",
-                              snackPosition: SnackPosition.BOTTOM)
-                          : signInWithPhoneNumber();
-                    },
-                    child: const Text("Verify")),
+                  onPressed: () {
+                    pinEditingController.text.length != 6
+                        ? Get.snackbar(
+                            "Invalid",
+                            "Please Enter Valid Otp",
+                            snackPosition: SnackPosition.BOTTOM,
+                          )
+                        : signInWithPhoneNumber();
+                  },
+                  child: const Text("Verify"),
+                ),
               ),
             ),
-           
           ],
         )
       ],
@@ -134,16 +151,16 @@ class Verification extends StatelessWidget {
           child: SizedBox(
             width: maxWidth / 1.4,
             child: ElevatedButton(
-                onPressed: () {
-                  if (pinEditingController.text.length != 6) {
-                    Get.snackbar("Invalid", "Please Enter Valid Otp");
-                  }
-                  signInWithPhoneNumber();
-                },
-                child: const Text("Verify"),),
+              onPressed: () {
+                if (pinEditingController.text.length != 6) {
+                  Get.snackbar("Invalid", "Please Enter Valid Otp");
+                }
+                signInWithPhoneNumber();
+              },
+              child: const Text("Verify"),
+            ),
           ),
         ),
-       
       ],
     );
   }

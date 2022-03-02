@@ -1,12 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:user_side/consts/sliderimages.dart';
 import 'package:user_side/controller/apiservices.dart';
 import 'package:user_side/controller/locationControll.dart';
+import 'package:user_side/model/global.dart';
 import 'package:user_side/model/sellermodel.dart';
 import 'package:user_side/view/menus/menus.dart';
 
@@ -17,11 +16,8 @@ class HomePage extends StatelessWidget {
 
   final locationController = Get.put(LocationController());
 
-
-
-
   /// this is homescreen//////////////////////////////////////
-  /// 
+  ///
   @override
   Widget build(BuildContext context) {
     //nlfjkl;jsd;dfj;lsadjd';fjas';dlkf';ladsk'f;lj';ldsf';laj
@@ -47,9 +43,12 @@ class HomePage extends StatelessWidget {
           GetBuilder<LocationController>(
             builder: (locationController) {
               return Center(
-                child: Text(
-                  locationController.currentAddress!,
-                  style: TextStyle(color: Colors.blue[900], fontSize: 20),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    locationController.currentAddress!,
+                    style: TextStyle(color: Colors.blue[900], fontSize: 20),
+                  ),
                 ),
               );
             },
@@ -125,6 +124,7 @@ class HomePage extends StatelessWidget {
               builder: (context, snapshot) {
                 List<SellerModel> data = [];
                 if (snapshot.hasData) {
+                  // ignore: cast_nullable_to_non_nullable
                   data = snapshot.data as List<SellerModel>;
 
                   return ListView.builder(
