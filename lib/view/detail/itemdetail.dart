@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
-import 'package:user_side/model/global.dart';
 import 'package:user_side/model/itemmodel.dart';
+import 'package:user_side/view/Address/address.dart';
 
 // ignore: must_be_immutable
 class ItemDetailPage extends StatelessWidget {
@@ -9,13 +10,14 @@ class ItemDetailPage extends StatelessWidget {
   ItemModel itemDetail;
 
   TextEditingController counterTextEditingController = TextEditingController();
-  addToCart(String foodItemID, BuildContext context, int itemCounter) {
-    // List<String> tempList = sharedPreferences!.getStringList("userCart");
-    // tempList.add("$foodItemID:$itemCounter");
 
-// FirebaseFirestore.instance.collection("users").doc()
-    // sharedPreferences!.setString("UserCart", tempList.toString());
-  }
+  // addToCart(String foodItemID, BuildContext context, int itemCounter) {
+  //   List<String>? tempList = sharedPreferences!.getStringList("userCart");
+  //   tempList!.add("$foodItemID:$itemCounter");
+
+  //   FirebaseFirestore.instance.collection("users").doc();
+  //   sharedPreferences!.setString("UserCart", tempList.toString());
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +149,7 @@ class ItemDetailPage extends StatelessWidget {
                   ),
                   Text(
                     itemDetail.aboutItem.toString(),
+                    maxLines: 1,
                     style: const TextStyle(
                       color: Colors.brown,
                       fontWeight: FontWeight.bold,
@@ -184,17 +187,17 @@ class ItemDetailPage extends StatelessWidget {
                           buttonArrangement: ButtonArrangement.incRightDecLeft,
                         ),
                       ),
-                      ElevatedButton.icon(
+                      ElevatedButton(
                         onPressed: () {
-                          final int itemCounter =
-                              int.parse(counterTextEditingController.text);
-                          addToCart(itemDetail.itemId!, context, itemCounter);
+                          Get.to(() => const AddressScreen());
+                          // final int itemCounter =
+                          //     int.parse(counterTextEditingController.text);
+                          // addToCart(itemDetail.itemId!, context, itemCounter);
                         },
-                        icon: const Icon(Icons.shopping_cart),
-                        label: const Text("Add to Cart"),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.red[900],
                         ),
+                        child: const Text("Buy"),
                       )
                     ],
                   ),

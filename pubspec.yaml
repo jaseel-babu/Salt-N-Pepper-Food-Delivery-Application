@@ -43,6 +43,7 @@ dependencies:
   shimmer: ^2.0.0
   pay: ^1.0.8
   number_inc_dec: ^0.8.0
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_lints: ^1.0.0

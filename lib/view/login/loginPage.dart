@@ -8,7 +8,9 @@ import 'package:user_side/view/login/verification.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
+
   var controller = Get.put(LoginController());
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   PhoneVerificationCompleted? verificationCompleted;
   PhoneVerificationFailed? verificationFailed;
@@ -19,20 +21,22 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     verificationCompleted = (PhoneAuthCredential phoneAuthCredential) async {
-     UserCredential a= await _auth.signInWithCredential(phoneAuthCredential); 
-     
+      UserCredential a = await _auth.signInWithCredential(phoneAuthCredential);
     };
 
     codeSent = (String? verificationId, [int? forceResendingToken]) async {
       // print("check your phone");
       controller.verificationId = verificationId!;
-       Get.off(() => Verification());
-      // print(controller.verificationId);
+      Get.off(() => Verification());
+      // print(controller.verificationId);///
     };
 
     verificationFailed = (FirebaseAuthException authException) {
-      Get.snackbar("Failed", "Please Enter valid Mobile Number",
-          snackPosition: SnackPosition.BOTTOM,);
+      Get.snackbar(
+        "Failed",
+        "Please Enter valid Mobile Number",
+        snackPosition: SnackPosition.BOTTOM,
+      );
       // print(authException.message);
     };
 
@@ -75,9 +79,9 @@ class LoginPage extends StatelessWidget {
     );
   }
 
- ListView field(BuildContext context, double maxWidth) {
+  ListView field(BuildContext context, double maxWidth) {
     return ListView(
-      shrinkWrap: true,     
+      shrinkWrap: true,
       children: [
         Padding(
           padding: const EdgeInsets.all(10.0),
@@ -103,10 +107,10 @@ class LoginPage extends StatelessWidget {
                   }
                   return null;
                 },
-                decoration:const InputDecoration(
+                decoration: const InputDecoration(
                   focusedBorder: InputBorder.none,
                   filled: true,
-                  border:  OutlineInputBorder(borderSide: BorderSide.none),
+                  border: OutlineInputBorder(borderSide: BorderSide.none),
                 ),
               ),
             ),
@@ -114,19 +118,20 @@ class LoginPage extends StatelessWidget {
         ),
         Container(
           width: maxWidth / 1.4,
-          margin:const EdgeInsets.only(left: 20, right: 20),
+          margin: const EdgeInsets.only(left: 20, right: 20),
           child: ElevatedButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 String number = ("+91" + mobileNoController.text);
                 try {
                   await _auth.verifyPhoneNumber(
-                      phoneNumber: number,
-                      timeout: const Duration(seconds: 5),
-                      verificationCompleted: verificationCompleted!,
-                      verificationFailed: verificationFailed!,
-                      codeSent: codeSent!,
-                      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout!,);
+                    phoneNumber: number,
+                    timeout: const Duration(seconds: 5),
+                    verificationCompleted: verificationCompleted!,
+                    verificationFailed: verificationFailed!,
+                    codeSent: codeSent!,
+                    codeAutoRetrievalTimeout: codeAutoRetrievalTimeout!,
+                  );
                 } catch (e) {
                   print("Failed to Verify Phone Number: ${e}");
                 }

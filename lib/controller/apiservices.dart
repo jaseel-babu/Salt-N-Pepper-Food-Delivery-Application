@@ -6,16 +6,16 @@ import 'package:user_side/model/sellermodel.dart';
 class ApiServices {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-
   //////////Fetch Store Details//////
-  
+
   Stream getStroreDetails() {
     return firebaseFirestore
         .collection("sellers")
         .snapshots()
         .map(storeDetails);
   }
- List<SellerModel> storeDetails(QuerySnapshot snapshot) {
+
+  List<SellerModel> storeDetails(QuerySnapshot snapshot) {
     return snapshot.docs.map((e) {
       return SellerModel(
         address: (e.data() as dynamic)["address"].toString(),
@@ -30,7 +30,8 @@ class ApiServices {
       );
     }).toList();
   }
- //////////Fetch Menu Items//////
+
+  //////////Fetch Menu Items//////
   Stream getMenus(String uid) {
     return firebaseFirestore
         .collection("sellers")
@@ -39,7 +40,7 @@ class ApiServices {
         .snapshots()
         .map(menuItems);
   }
-   
+
   List<CategoryModel> menuItems(QuerySnapshot snapshot) {
     return snapshot.docs.map(
       (e) {
@@ -55,18 +56,25 @@ class ApiServices {
       },
     ).toList();
   }
-   //////////Fetch Items//////
-    Stream getItems(String uid,String MenuId) {
+
+  //////////Fetch Items//////
+  // ignore: non_constant_identifier_names
+  Stream getItems(String uid, String MenuId) {
     return firebaseFirestore
         .collection("sellers")
         .doc(uid)
-        .collection("menus").doc(MenuId).collection("items")
+        .collection("menus")
+        .doc(MenuId)
+        .collection("items")
         .snapshots()
         .map(items);
-  }List<ItemModel> items(QuerySnapshot snapshot) {
+  }
+
+  List<ItemModel> items(QuerySnapshot snapshot) {
     return snapshot.docs.map(
       (e) {
-        return ItemModel(discription: (e.data() as dynamic)["discription"].toString() ,
+        return ItemModel(
+          discription: (e.data() as dynamic)["discription"].toString(),
           aboutItem: (e.data() as dynamic)["aboutItem"].toString(),
           itemId: (e.data() as dynamic)["itemID"].toString(),
           publishedDate: (e.data() as dynamic)["publishedDate"].toString(),
@@ -74,10 +82,9 @@ class ApiServices {
           thumbnail: (e.data() as dynamic)["thumbnail"].toString(),
           status: (e.data() as dynamic)["status"].toString(),
           title: (e.data() as dynamic)["title"].toString(),
-          size: (e.data() as dynamic)["size"]as Map,
+          size: (e.data() as dynamic)["size"] as Map,
         );
       },
     ).toList();
   }
-
 }

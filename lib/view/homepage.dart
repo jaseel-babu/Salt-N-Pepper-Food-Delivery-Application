@@ -7,6 +7,7 @@ import 'package:user_side/controller/apiservices.dart';
 import 'package:user_side/controller/locationControll.dart';
 import 'package:user_side/model/sellermodel.dart';
 import 'package:user_side/view/menus/menus.dart';
+import 'package:user_side/view/widgets/drawer.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -19,7 +20,6 @@ class HomePage extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-   
     final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -28,10 +28,13 @@ class HomePage extends StatelessWidget {
         excludeHeaderSemantics: true,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        leading: Icon(
-          Icons.format_align_left,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.format_align_left,
+            size: 30,
+          ),
           color: Colors.blue[900],
-          size: 30,
+          onPressed: () => Scaffold.of(context).openDrawer(),
         ),
         actions: [
           Icon(
@@ -54,6 +57,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      drawer: const DrawerWidget(),
       body: SafeArea(
         child: ListView(
           children: [

@@ -37,13 +37,14 @@ class Verification extends StatelessWidget {
     }
   }
 
- Future saveDataToFirestore(User currentUser) async {
+  Future saveDataToFirestore(User currentUser) async {
     FirebaseFirestore.instance.collection("users").doc(currentUser.uid).set({
       "userUID": currentUser.uid,
+      "userCart": ["garbagevalue"]
     });
-    final SharedPreferences preferences =
-        await SharedPreferences.getInstance();
-   await preferences.setString("uid", currentUser.uid);
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString("uid", currentUser.uid);
+    await preferences.setString("userCart", ['garbage value'].toString());
   }
 
   TextEditingController pinEditingController = TextEditingController();

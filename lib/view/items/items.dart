@@ -23,35 +23,35 @@ class ItemsPage extends StatelessWidget {
         title: const Text(
           "Itemsss",
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.shopping_cart,
-              // size: 30,
-              color: Colors.yellow,
-            ),
-          ),
-          Stack(
-            children: const [
-              Icon(
-                Icons.brightness_1,
-                size: 20,
-                color: Colors.green,
-              ),
-              Positioned(
-                top: 3,
-                right: 6,
-                child: Center(
-                  child: Text(
-                    "0",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: const Icon(
+        //       Icons.shopping_cart,
+        //       // size: 30,
+        //       color: Colors.yellow,
+        //     ),
+        //   ),
+        //   Stack(
+        //     children: const [
+        //       Icon(
+        //         Icons.brightness_1,
+        //         size: 20,
+        //         color: Colors.green,
+        //       ),
+        //       Positioned(
+        //         top: 3,
+        //         right: 6,
+        //         child: Center(
+        //           child: Text(
+        //             "0",
+        //             style: TextStyle(color: Colors.white, fontSize: 12),
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   )
+        // ],
       ),
       body: SafeArea(
         child: StreamBuilder(
