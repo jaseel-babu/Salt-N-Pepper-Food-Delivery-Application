@@ -28,13 +28,17 @@ class HomePage extends StatelessWidget {
         excludeHeaderSemantics: true,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.format_align_left,
-            size: 30,
-          ),
-          color: Colors.blue[900],
-          onPressed: () => Scaffold.of(context).openDrawer(),
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: const Icon(
+                Icons.format_align_left,
+                size: 30,
+              ),
+              color: Colors.blue[900],
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            );
+          },
         ),
         actions: [
           Icon(
