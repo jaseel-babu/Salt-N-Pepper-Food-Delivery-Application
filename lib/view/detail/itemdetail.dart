@@ -1,23 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
+import 'package:user_side/controller/cart_controller.dart';
 import 'package:user_side/model/itemmodel.dart';
-import 'package:user_side/view/Address/address.dart';
 
 // ignore: must_be_immutable
 class ItemDetailPage extends StatelessWidget {
   ItemDetailPage({Key? key, required this.itemDetail}) : super(key: key);
   ItemModel itemDetail;
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController counterTextEditingController = TextEditingController();
-
-  // addToCart(String foodItemID, BuildContext context, int itemCounter) {
-  //   List<String>? tempList = sharedPreferences!.getStringList("userCart");
-  //   tempList!.add("$foodItemID:$itemCounter");
-
-  //   FirebaseFirestore.instance.collection("users").doc();
-  //   sharedPreferences!.setString("UserCart", tempList.toString());
-  // }
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +42,20 @@ class ItemDetailPage extends StatelessWidget {
             children: const [
               Icon(
                 Icons.brightness_1,
-                size: 20,
+                size: 25,
                 color: Colors.black,
               ),
               Positioned(
-                top: 3,
-                right: 6,
+                top: 5,
+                right: 9,
                 child: Center(
                   child: Text(
                     "0",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -189,10 +189,23 @@ class ItemDetailPage extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Get.to(() => const AddressScreen());
-                          // final int itemCounter =
-                          //     int.parse(counterTextEditingController.text);
-                          // addToCart(itemDetail.itemId!, context, itemCounter);
+                          // Get.to(() => const AddressScreen());
+                          final int itemCounter =
+                              int.parse(counterTextEditingController.text);
+
+                          // List<String> separateItemIDsList =
+                          //     separateItemIDs() as List<String>;
+
+                          // separateItemIDsList.contains(itemDetail.itemId)
+                          //     ? Fluttertoast.showToast(
+                          //         msg: "Item Already Exist",
+                          //       )
+                          //     :
+                          addToCart(
+                            itemDetail.itemId!,
+                            context,
+                            itemCounter,
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.red[900],

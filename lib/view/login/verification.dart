@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_side/controller/controller.dart';
+import 'package:user_side/model/global.dart';
 import 'package:user_side/view/homepage.dart';
 
 // ignore: must_be_immutable
@@ -21,9 +22,8 @@ class Verification extends StatelessWidget {
         verificationId: controller.verificationId,
         smsCode: pinEditingController.text,
       );
-
       user = (await _auth.signInWithCredential(credential)).user;
-
+      // readData(user!);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("login", true);
       Get.off(() => HomePage());
@@ -44,8 +44,23 @@ class Verification extends StatelessWidget {
     });
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString("uid", currentUser.uid);
-    await preferences.setString("userCart", ['garbage value'].toString());
+    await preferences.setStringList("userCart", ['garbagevalue']);
   }
+
+  // readData(User currentUser) async {
+  //   await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(currentUser.uid)
+  //       .get()
+  //       .then((snapshot) async {
+  //     if (snapshot.exists) {
+  //       // await sharedPreferences!.setString("uid", currentUser.uid);
+  //       List<String> userCartList =
+  //           snapshot.data()!["userCart"] as List<String>;
+  //       await sharedPreferences!.setStringList("userCart", userCartList);
+  //     }
+  //   });
+  // }
 
   TextEditingController pinEditingController = TextEditingController();
   var controller = Get.put(LoginController());

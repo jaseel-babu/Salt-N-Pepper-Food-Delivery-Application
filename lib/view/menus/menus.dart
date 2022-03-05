@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:user_side/controller/apiservices.dart';
 import 'package:user_side/controller/controller.dart';
 import 'package:user_side/model/catagorymodel.dart';
 import 'package:user_side/model/sellermodel.dart';
 import 'package:user_side/view/items/items.dart';
 
+// ignore: must_be_immutable
 class MenusPage extends StatelessWidget {
   MenusPage({Key? key, required this.sellerModel}) : super(key: key);
   SellerModel sellerModel;
-  var controller = Get.put(LoginController());
+  LoginController controller = Get.put(LoginController());
   ApiServices apiServices = ApiServices();
   @override
   Widget build(BuildContext context) {
@@ -49,10 +49,12 @@ class MenusPage extends StatelessWidget {
                   controller.popularImages.add(data[index].thumbnail);
                   return GestureDetector(
                     onTap: () {
-                      Get.to(() => ItemsPage(
-                            data: data[index],
-                            sellerId: sellerModel.sellerUID,
-                          ),);
+                      Get.to(
+                        () => ItemsPage(
+                          data: data[index],
+                          sellerId: sellerModel.sellerUID,
+                        ),
+                      );
                     },
                     child: Card(
                       child: Stack(
