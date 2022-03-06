@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_side/controller/controller.dart';
 import 'package:user_side/model/global.dart';
-import 'package:user_side/view/homepage.dart';
+import 'package:user_side/view/Homepage/homepage.dart';
 import 'package:user_side/view/login/loginpage.dart';
 
 Future main() async {

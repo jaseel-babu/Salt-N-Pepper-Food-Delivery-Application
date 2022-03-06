@@ -6,7 +6,7 @@ import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_side/controller/controller.dart';
 import 'package:user_side/model/global.dart';
-import 'package:user_side/view/homepage.dart';
+import 'package:user_side/view/Homepage/homepage.dart';
 
 // ignore: must_be_immutable
 class Verification extends StatelessWidget {
