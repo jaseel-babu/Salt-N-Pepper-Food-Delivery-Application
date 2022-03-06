@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
-  badges:
-    dependency: transitive
-    description:
-      name: badges
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -22,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  bubble_bottom_bar:
-    dependency: "direct main"
-    description:
-      name: bubble_bottom_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   cached_network_image:
     dependency: "direct main"
     description:
@@ -635,13 +621,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  stylish_bottom_bar:
-    dependency: "direct main"
-    description:
-      name: stylish_bottom_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.7"
   synchronized:
     dependency: transitive
     description:

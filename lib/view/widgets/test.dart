@@ -1,4 +1,4 @@
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+
 import 'package:flutter/material.dart';
 
 class ClippingSample extends StatefulWidget {
