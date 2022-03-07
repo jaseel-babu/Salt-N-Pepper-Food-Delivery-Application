@@ -6,6 +6,7 @@ class CartItemCounterController extends GetxController {
   int get count => cartCounter;
 
   Future<void> displayCartListCounter() async {
+    cartCounter = sharedPreferences!.getString("userCart")!.length - 1;
     await Future.delayed(const Duration(milliseconds: 100), () {
       update();
     });

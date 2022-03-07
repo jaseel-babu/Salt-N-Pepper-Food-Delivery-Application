@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:user_side/controller/apiservices.dart';
 import 'package:user_side/model/catagorymodel.dart';
 import 'package:user_side/model/itemmodel.dart';
-import 'package:user_side/view/detail/itemdetail.dart';
+import 'package:user_side/view/items/itemdetail.dart';
 
 // ignore: must_be_immutable
 class ItemsPage extends StatelessWidget {
-  ItemsPage({Key? key, required this.data, required this.sellerId})
+  ItemsPage({Key? key, required this.datas, required this.sellerId})
       : super(key: key);
-  CategoryModel data;
+  CategoryModel datas;
 
   String? sellerId;
   //  var controller = Get.put(LoginController());
@@ -23,39 +23,10 @@ class ItemsPage extends StatelessWidget {
         title: const Text(
           "Itemsss",
         ),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: const Icon(
-        //       Icons.shopping_cart,
-        //       // size: 30,
-        //       color: Colors.yellow,
-        //     ),
-        //   ),
-        //   Stack(
-        //     children: const [
-        //       Icon(
-        //         Icons.brightness_1,
-        //         size: 20,
-        //         color: Colors.green,
-        //       ),
-        //       Positioned(
-        //         top: 3,
-        //         right: 6,
-        //         child: Center(
-        //           child: Text(
-        //             "0",
-        //             style: TextStyle(color: Colors.white, fontSize: 12),
-        //           ),
-        //         ),
-        //       ),
-        //     ],
-        //   )
-        // ],
       ),
       body: SafeArea(
         child: StreamBuilder(
-          stream: apiServices.getItems(sellerId!, data.menuID!),
+          stream: apiServices.getItems(sellerId!, datas.menuID!),
           builder: (context, snapshot) {
             List<ItemModel> data = [];
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -80,6 +51,7 @@ class ItemsPage extends StatelessWidget {
                       Get.to(
                         () => ItemDetailPage(
                           itemDetail: data[index],
+                          menuID: datas.menuID,
                         ),
                       );
                     },

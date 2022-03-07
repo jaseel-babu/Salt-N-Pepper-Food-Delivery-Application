@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:user_side/controller/cart_controller.dart';
 import 'package:user_side/model/catagorymodel.dart';
 import 'package:user_side/model/itemmodel.dart';
 import 'package:user_side/model/sellermodel.dart';
@@ -68,6 +70,18 @@ class ApiServices {
         .collection("items")
         .snapshots()
         .map(items);
+  }
+
+  Stream getCartItems(String uid, String? menuID, ItemModel? itemModel) {
+    return firebaseFirestore
+        .collection("sellers")
+        .doc(uid)
+        .collection("menus")
+        .doc(menuID)
+        .collection("items")
+        .where("itemID", whereIn: separateItemIDs())
+        .orderBy("publishedDate", descending: true)
+        .snapshots();
   }
 
   List<ItemModel> items(QuerySnapshot snapshot) {

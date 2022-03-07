@@ -51,7 +51,7 @@ class MenusPage extends StatelessWidget {
                     onTap: () {
                       Get.to(
                         () => ItemsPage(
-                          data: data[index],
+                          datas: data[index],
                           sellerId: sellerModel.sellerUID,
                         ),
                       );

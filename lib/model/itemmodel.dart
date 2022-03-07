@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class ItemModel {
   String? aboutItem;
   String? discription;
@@ -49,5 +47,4 @@ class ItemModel {
       title: map['title'],
     );
   }
-
 }

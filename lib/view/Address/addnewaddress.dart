@@ -5,7 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:user_side/model/addressmodel.dart';
 import 'package:user_side/model/global.dart';
-import 'package:user_side/view/Address/text_field.dart';
+import 'package:user_side/view/widgets/text_field.dart';
 
 class AddNewAddress extends StatefulWidget {
   const AddNewAddress({Key? key}) : super(key: key);
