@@ -172,7 +172,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
               city: _city.text.trim(),
               lat: position!.latitude.toString(),
               lng: position!.longitude.toString(),
-            ).toJson();
+            ).toMap();
 
             FirebaseFirestore.instance
                 .collection("users")

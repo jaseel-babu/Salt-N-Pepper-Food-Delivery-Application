@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class ClippingSample extends StatefulWidget {
@@ -9,21 +8,6 @@ class ClippingSample extends StatefulWidget {
 }
 
 class _ClippingSampleState extends State<ClippingSample> {
-  int? currentIndex;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    currentIndex = 0;
-  }
-
-  void changePage(int? index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,8 +51,6 @@ class _ClippingSampleState extends State<ClippingSample> {
           ],
         ),
       ),
-     
-     
     );
   }
 }

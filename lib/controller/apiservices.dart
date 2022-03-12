@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:user_side/controller/cart_controller.dart';
+import 'package:user_side/model/addressmodel.dart';
 import 'package:user_side/model/catagorymodel.dart';
+import 'package:user_side/model/global.dart';
 import 'package:user_side/model/itemmodel.dart';
 import 'package:user_side/model/sellermodel.dart';
 
@@ -72,7 +73,8 @@ class ApiServices {
         .map(items);
   }
 
-  Stream getCartItems(String uid, String? menuID, ItemModel? itemModel) {
+  Stream<QuerySnapshot> getCartItems(
+      String uid, String? menuID, ItemModel? itemModel) {
     return firebaseFirestore
         .collection("sellers")
         .doc(uid)
@@ -97,6 +99,32 @@ class ApiServices {
           status: (e.data() as dynamic)["status"].toString(),
           title: (e.data() as dynamic)["title"].toString(),
           size: (e.data() as dynamic)["size"] as Map,
+        );
+      },
+    ).toList();
+  }
+
+  Stream getAddress() {
+    return firebaseFirestore
+        .collection("users")
+        .doc(sharedPreferences!.getString("uid"))
+        .collection("userAddress")
+        .snapshots()
+        .map(address);
+  }
+
+  List<Address> address(QuerySnapshot snapshot) {
+    return snapshot.docs.map(
+      (e) {
+        return Address(
+          name: (e.data() as dynamic)['name'].toString(),
+          phoneNumber: (e.data() as dynamic)['phoneNumber'].toString(),
+          flatNumber: (e.data() as dynamic)['flatNumber'].toString(),
+          city: (e.data() as dynamic)['city'].toString(),
+          state: (e.data() as dynamic)['state'].toString(),
+          fullAddress: (e.data() as dynamic)['fullAddress'].toString(),
+          lat: (e.data() as dynamic)['lat'].toString(),
+          lng: (e.data() as dynamic)['lng'].toString(),
         );
       },
     ).toList();

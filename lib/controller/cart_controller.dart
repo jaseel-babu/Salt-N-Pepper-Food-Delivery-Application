@@ -46,13 +46,13 @@ List<String> separateItemIDs() {
     //56557657
     final String getItemId = (pos != -1) ? item.substring(0, pos) : item;
 
-    print("\nThis is itemID now = " + getItemId);
+    // print("\nThis is itemID now = " + getItemId);
 
     separateItemIDsList.add(getItemId);
   }
   cartItemCounter.update();
-  print("\nThis is Items List now = ");
-  print(separateItemIDsList);
+  // print("\nThis is Items List now = ");
+  // print(separateItemIDsList);
 
   return separateItemIDsList;
 }
@@ -76,13 +76,13 @@ separateItemQuantities() {
     //7
     var quanNumber = int.parse(listItemCharacters[1].toString());
 
-    print("\nThis is Quantity Number = " + quanNumber.toString());
+    // print("\nThis is Quantity Number = " + quanNumber.toString());
 
     separateItemQuantityList.add(quanNumber);
   }
 
-  print("\nThis is Quantity List now = ");
-  print(separateItemQuantityList);
+  // print("\nThis is Quantity List now = ");
+  // print(separateItemQuantityList);
 
   return separateItemQuantityList;
 }

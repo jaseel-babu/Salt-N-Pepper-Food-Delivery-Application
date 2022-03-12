@@ -36,11 +36,12 @@ class ItemModel {
 
   factory ItemModel.fromMap(Map<String, String> map) {
     return ItemModel(
-      aboutItem: map['aboutItem'],
+      aboutItem: map['aboutItem'].toString(),
       discription: map['discription'],
       itemId: map['itemId'],
       publishedDate: map['publishedDate'],
       sellerUID: map['sellerUID'],
+      // ignore: cast_nullable_to_non_nullable
       size: map['size'] as Map,
       status: map['status'],
       thumbnail: map['thumbnail'],

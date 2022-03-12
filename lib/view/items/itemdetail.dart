@@ -6,6 +6,7 @@ import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:user_side/controller/cart_controller.dart';
 import 'package:user_side/controller/cart_item_counter.dart';
 import 'package:user_side/model/itemmodel.dart';
+import 'package:user_side/view/Address/address.dart';
 import 'package:user_side/view/Cart/items_in_cart.dart';
 
 // ignore: must_be_immutable
@@ -26,9 +27,9 @@ class ItemDetailPage extends StatelessWidget {
     final List sizeChart = itemDetail.size!.keys.toList();
 
     return Scaffold(
-      backgroundColor: Colors.pink[100],
+      backgroundColor: Colors.blue[100],
       appBar: AppBar(
-        backgroundColor: Colors.red[900],
+        backgroundColor: Colors.blue[900],
         title: Text(
           itemDetail.title.toString(),
         ),
@@ -40,7 +41,7 @@ class ItemDetailPage extends StatelessWidget {
                 () => ViewCartItems(
                   sellerUID: itemDetail.sellerUID,
                   itemModel: itemDetail,
-                  menuID:menuID,
+                  menuID: menuID,
                 ),
               );
             },
@@ -81,6 +82,70 @@ class ItemDetailPage extends StatelessWidget {
         ],
       ),
       body: SafeArea(
+        // child: Center(
+        //   child: Column(
+        //     children: [
+        //       Padding(
+        //         padding: const EdgeInsets.all(8.0),
+        //         child: Container(
+        //           decoration: BoxDecoration(
+        //             borderRadius: BorderRadius.circular(33),
+        //             color: Colors.blueAccent.shade200,
+        //             boxShadow: [
+        //               BoxShadow(
+        //                 color: Colors.blueAccent.shade100,
+        //                 offset: const Offset(5.0, 5.0),
+        //                 blurRadius: 25.0,
+        //                 spreadRadius: 1.0,
+        //               ),
+        //               BoxShadow(
+        //                 color: Colors.blueAccent.shade100,
+        //                 offset: const Offset(-4.0, -4.0),
+        //                 blurRadius: 6.0,
+        //                 spreadRadius: 1.0,
+        //               )
+        //             ],
+        //           ),
+        //           child: ClipPath(
+        //             clipper: BackgroundClipper(),
+        //             child: Container(
+        //               // alignment: Alignment.center,
+        //               width: MediaQuery.of(context).size.width * 0.8,
+        //               height: MediaQuery.of(context).size.height * 0.6,
+        //               decoration: BoxDecoration(
+        //                 color: Colors.blue.shade100,
+        //               ),
+        //               child: ClipRRect(
+        //                 borderRadius: BorderRadius.circular(10),
+        //                 child: Image.network(
+        //                   // ignore: noop_primitive_operations
+        //                   itemDetail.thumbnail!.toString(),
+        //                   fit: BoxFit.fitWidth,
+        //                   frameBuilder: (
+        //                     context,
+        //                     child,
+        //                     frame,
+        //                     wasSynchronouslyLoaded,
+        //                   ) =>
+        //                       child,
+        //                   loadingBuilder: (context, child, loadingProgress) {
+        //                     if (loadingProgress == null) {
+        //                       return child;
+        //                     }
+
+        //                     return const Center(
+        //                       child: CircularProgressIndicator(),
+        //                     );
+        //                   },
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
         child: ListView(
           shrinkWrap: true,
           children: [
@@ -93,7 +158,7 @@ class ItemDetailPage extends StatelessWidget {
                 child: Image.network(
                   // ignore: noop_primitive_operations
                   itemDetail.thumbnail!.toString(),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                   frameBuilder: (
                     context,
                     child,
@@ -167,8 +232,8 @@ class ItemDetailPage extends StatelessWidget {
                   Text(
                     itemDetail.aboutItem.toString(),
                     maxLines: 1,
-                    style: const TextStyle(
-                      color: Colors.brown,
+                    style: TextStyle(
+                      color: Colors.blue.shade900,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
@@ -187,13 +252,13 @@ class ItemDetailPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
-                        height: 70,
+                        height: 50,
                         width: 130,
                         child: NumberInputPrefabbed.roundedButtons(
                           scaleHeight: 0.7,
                           scaleWidth: 0.7,
                           widgetContainerDecoration: BoxDecoration(
-                            color: Colors.red[900],
+                            color: Colors.blue[900],
                             borderRadius: BorderRadius.circular(5),
                           ),
                           controller: counterTextEditingController,
@@ -223,32 +288,39 @@ class ItemDetailPage extends StatelessWidget {
                             addToCart(itemDetail.itemId!, itemCounter);
                           }
 
-                          // separateItemIDsList
-                          //         .where(
-                          //           (element) => element == itemDetail.itemId,
-                          //         )
-                          //         .isEmpty
-                          //     ? addToCart(itemDetail.itemId!, itemCounter)
-                          //     : Fluttertoast.showToast(
-                          //         msg: "item already exist in cart",
-                          //       );
+                          separateItemIDsList
+                                  .where(
+                                    (element) => element == itemDetail.itemId,
+                                  )
+                                  .isEmpty
+                              ? addToCart(itemDetail.itemId!, itemCounter)
+                              : Fluttertoast.showToast(
+                                  msg: "item already exist in cart",
+                                );
 
-                          // separateItemIDsList.contains(itemDetail.itemId)
-                          //     ?
-                          //     Fluttertoast.showToast(
-                          //         msg: "Item Already Exist",
-                          //       )
-                          //     :
-                          //      addToCart(
-                          //         itemDetail.itemId!,
-                          //         itemCounter,
-                          //       );
+                          separateItemIDsList.contains(itemDetail.itemId)
+                              ? Fluttertoast.showToast(
+                                  msg: "Item Already Exist",
+                                )
+                              : addToCart(
+                                  itemDetail.itemId!,
+                                  itemCounter,
+                                );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.red[900],
+                          primary: Colors.blue[900],
                         ),
-                        child: const Text("Buy"),
-                      )
+                        child: const Text("Add to cart"),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.to(() => const AddressScreen());
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue.shade900,
+                        ),
+                        child: const Text("Check Out"),
+                      ),
                     ],
                   ),
                 ],

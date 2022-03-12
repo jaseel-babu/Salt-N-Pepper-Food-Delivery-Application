@@ -19,28 +19,29 @@ class Address {
     this.lng,
   });
 
-  Address.fromJson(Map<String, String> json) {
-    name = json['name'];
-    phoneNumber = json['phoneNumber'];
-    flatNumber = json['flatNumber'];
-    city = json['city'];
-    state = json['state'];
-    fullAddress = json['fullAddress'];
-    lat = json['lat'];
-    lng = json['lng'];
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'phoneNumber': phoneNumber,
+      'flatNumber': flatNumber,
+      'city': city,
+      'state': state,
+      'fullAddress': fullAddress,
+      'lat': lat,
+      'lng': lng,
+    };
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['phoneNumber'] = phoneNumber;
-    data['flatNumber'] = flatNumber;
-    data['city'] = city;
-    data['state'] = state;
-    data['fullAddress'] = fullAddress;
-    data['lat'] = lat;
-    data['lng'] = lng;
-
-    return data;
+  factory Address.fromMap(Map<String, String> map) {
+    return Address(
+      name: map['name'],
+      phoneNumber: map['phoneNumber'],
+      flatNumber: map['flatNumber'],
+      city: map['city'],
+      state: map['state'],
+      fullAddress: map['fullAddress'],
+      lat: map['lat'],
+      lng: map['lng'],
+    );
   }
 }

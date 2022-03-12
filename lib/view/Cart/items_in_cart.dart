@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:user_side/controller/apiservices.dart';
 import 'package:user_side/controller/cart_controller.dart';
+import 'package:user_side/model/global.dart';
 import 'package:user_side/model/itemmodel.dart';
-import 'package:user_side/view/Cart/cart_design.dart';
 
 class ViewCartItems extends StatefulWidget {
   String? menuID;
@@ -18,6 +19,7 @@ class ViewCartItems extends StatefulWidget {
 
 class _ViewCartItemsState extends State<ViewCartItems> {
   List<int>? separateItemQuantityList;
+  num totalAmount = 0;
   @override
   void initState() {
     // TODO: implement initState
@@ -30,6 +32,67 @@ class _ViewCartItemsState extends State<ViewCartItems> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(title: Text(widget.itemModel!.title.toString())),
+
+      // body: CustomScrollView(
+      //   slivers: [
+      //     //overall total amount
+
+      //     //display cart items with quantity number
+      //     Expanded(
+      //       flex: 2,
+      //       child: StreamBuilder<QuerySnapshot>(
+      //         stream: FirebaseFirestore.instance
+      //             // .collection("sellers")
+      //             // .doc(widget.sellerUID)
+      //             // .collection("menus")
+      //             // .doc(widget.menuID)
+      //             .collection("items")
+      //             .where("itemID", whereIn: separateItemIDs())
+      //             .orderBy("publishedDate", descending: true)
+      //             .snapshots(),
+      //         builder: (context, snapshot) {
+      //           print(" jjjjjjjjjjjjjjjjjjjjjjj $snapshot.data");
+      //           return !snapshot.hasData
+      //               ? const SliverToBoxAdapter(
+      //                   child: Center(
+      //                     child: CircularProgressIndicator(),
+      //                   ),
+      //                 )
+      //               : snapshot.data!.docs.isEmpty
+      //                   ? //startBuildingCart()
+      //                   Container()
+      //                   : SliverList(
+      //                       delegate: SliverChildBuilderDelegate(
+      //                         (context, index) {
+      //                           final ItemModel model = ItemModel.fromMap(
+      //                             snapshot.data!.docs[index].data()!
+      //                                 as Map<String, String>,
+      //                           );
+      //                           print(model.title);
+      //                           return Text(
+      //                             model.title.toString(),
+      //                             style: const TextStyle(
+      //                               color: Colors.red,
+      //                               fontSize: 30,
+      //                             ),
+      //                           );
+      //                           // CartDesign(
+      //                           //   itemModel: model,
+      //                           //   // context: context,
+      //                           //   quantityNo: separateItemQuantityList![index],
+      //                           // );
+      //                         },
+      //                         // childCount: snapshot.hasData
+      //                         //     ? snapshot.data!.docs.length
+      //                         //     : 0,
+      //                       ),
+      //                     );
+      //         },
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      //////////////////////////////////////////////
       body: SafeArea(
         child: ListView(
           children: [
@@ -77,42 +140,83 @@ class _ViewCartItemsState extends State<ViewCartItems> {
                 ),
               ),
             ),
-            StreamBuilder(
-              stream: ApiServices().getCartItems(
-                widget.sellerUID!,
-                widget.menuID,
-                widget.itemModel,
-              ),
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(sharedPreferences!.getString("uid"))
+                  .collection("menus")
+                  .doc(widget.menuID)
+                  .collection("items")
+                  .where("itemID", whereIn: separateItemIDs())
+                  .orderBy("publishedDate", descending: true)
+                  .snapshots(),
               builder: (context, snapshot) {
-                List<ItemModel> data = [];
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.hasData) {
-                  // ignore: cast_nullable_to_non_nullable
-                  data = snapshot.data as List<ItemModel>;
-                  return ListView.builder(
-                    // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 2),
-                    physics: const ScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      // controller.popularImages.add(data[index].thumbnail);
-                      return CartDesign(
-                        itemModel: widget.itemModel,
-                        quantityNo: separateItemQuantityList![index],
-                      );
-                      print("sucesssssssssss");
-                      print(data.length);
-                    },
-                  );
-                }
-                return Container();
+                print(snapshot.data);
+                // print(snapshot.data!.docs.length);
+                return !snapshot.hasData
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : snapshot.data!.docs.isEmpty
+                        ? //startBuildingCart()
+                        Container()
+                        : ListView.builder(
+                            itemBuilder: (BuildContext context, int index) {
+                              final ItemModel model = ItemModel.fromMap(
+                                snapshot.data!.docs[index].data()!
+                                    as Map<String, String>,
+                              );
+                              print(model);
+                              print(model.title);
+                              return Container(
+                                color: Colors.red,
+                                height: 30,
+                                width: 100,
+                              );
+                            },
+                            itemCount: snapshot.hasData
+                                ? snapshot.data!.docs.length
+                                : 0,
+                          );
               },
             ),
+      //       //       // StreamBuilder(
+      //       //       //   stream: ApiServices().getCartItems(
+      //       //       //     widget.sellerUID!,
+      //       //       //     widget.menuID,
+      //       //       //     widget.itemModel,
+      //       //       //   ),
+      //       //       //   builder: (context, snapshot) {
+      //       //       //     print("hyyyyyyyyyyyyyyyyy $snapshot.data");
+      //       //       //     Map<String, dynamic> data = {};
+      //       //       //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       //       //       return const Center(
+      //       //       //         child: CircularProgressIndicator(),
+      //       //       //       );
+      //       //       //     }
+      //       //       //     if (snapshot.hasData) {
+      //       //       //       // data = snapshot.data as Map<String,dynamic>;
+      //       //       //       // ignore: cast_nullable_to_non_nullable
+      //       //       //       return ListView.builder(
+      //       //       //         // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      //       //       //         //     crossAxisCount: 2),
+      //       //       //         physics: const ScrollPhysics(),
+      //       //       //         shrinkWrap: true,
+      //       //       //         itemCount: data.length,
+      //       //       //         itemBuilder: (context, index) {
+      //       //       //           // controller.popularImages.add(data[index].thumbnail);
+      //       //       //           return CartDesign(
+      //       //       //             itemModel: widget.itemModel,
+      //       //       //             quantityNo: separateItemQuantityList![index],
+      //       //       //           );
+      //       //       //           print("sucesssssssssss");
+      //       //       //           print(data.length);
+      //       //       //         },
+      //       //       //       );
+      //       //       //     }
+      //       //       //     return Container();
+      //       //       //   },
+      //       //       // ),
           ],
         ),
       ),
