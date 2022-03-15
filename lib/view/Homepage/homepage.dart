@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -180,7 +179,7 @@ class HomePage extends StatelessWidget {
                         padding: EdgeInsets.only(top: 8, bottom: 8),
                       ),
                       Text(
-                        'Heyyo Foodiee . .!',
+                        'Heyyo Foodiee . . !',
                         style: GoogleFonts.aBeeZee(
                           color: Colors.teal.shade300,
                           fontSize: 18,
@@ -201,151 +200,192 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                child: const TextField(
-                  decoration: InputDecoration(
-                    label: Text("Search Your Favourite Restaurent"),
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.grey[100],
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.cyan.shade100,
+                        offset: const Offset(4.0, 4.0),
+                        blurRadius: 8.0,
+                        spreadRadius: 1.0,
+                      ),
+                      const BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(-4.0, -4.0),
+                        blurRadius: 2.0,
+                        spreadRadius: 1.0,
+                      )
+                    ],
                   ),
-                  textInputAction: TextInputAction.next,
+                  child: const TextField(
+                    cursorColor: Colors.black,
+                    style: TextStyle(color: Colors.grey, fontSize: 18),
+                    decoration: InputDecoration(
+                      enabledBorder: InputBorder.none,
+                      label: Text("Search Your Favourite Restaurent"),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        size: 30,
+                      ),
+                      border: InputBorder.none,
+                    ),
+                    textInputAction: TextInputAction.next,
+                  ),
                 ),
               ),
-              // StreamBuilder(
-              //   stream: apiServices.getStroreDetails(),
-              //   builder: (context, snapshot) {
-              //     List<SellerModel> data = [];
-              //     if (snapshot.hasData) {
-              //       // ignore: cast_nullable_to_non_nullable
-              //       data = snapshot.data as List<SellerModel>;
+              const SizedBox(
+                height: 20,
+              ),
+              StreamBuilder(
+                stream: apiServices.getStroreDetails(),
+                builder: (context, snapshot) {
+                  List<SellerModel> data = [];
+                  if (snapshot.hasData) {
+                    // ignore: cast_nullable_to_non_nullable
+                    data = snapshot.data as List<SellerModel>;
 
-              //       return ListView.builder(
-              //         physics: const ScrollPhysics(),
-              //         shrinkWrap: true,
-              //         itemCount: data.length,
-              //         itemBuilder: (context, index) {
-              //           return InkWell(
-              //             onTap: () {
-              //               Get.to(
-              //                 () => MenusPage(
-              //                   sellerModel: data[index],
-              //                 ),
-              //               );
-              //             },
-              //             child: Card(
-              //               child: Stack(
-              //                 alignment: AlignmentDirectional.bottomCenter,
-              //                 children: [
-              //                   Image.asset(
-              //                     sliderItems[sliderItems.length - 1 - index],
-              //                   ),
-              //                   Container(
-              //                     height: maxHeight * 0.1,
-              //                     width: maxWidth,
-              //                     color: Colors.black.withOpacity(0.6),
-              //                     child: Center(
-              //                       child: Text(
-              //                         data[index].shopName!,
-              //                         style: const TextStyle(
-              //                           color: Colors.white,
-              //                           fontSize: 22,
-              //                           fontWeight: FontWeight.bold,
-              //                         ),
-              //                       ),
-              //                     ),
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //           );
-              //         },
-              //       );
-              //     }
-              //     return const Center(child: CircularProgressIndicator());
-              //   },
-              // ),
+                    return ListView.builder(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Get.to(
+                              () => MenusPage(
+                                sellerModel: data[index],
+                              ),
+                            );
+                          },
+                          child: Card(
+                            child: Stack(
+                              alignment: AlignmentDirectional.bottomCenter,
+                              children: [
+                                Image.asset(
+                                  sliderItems[sliderItems.length - 1 - index],
+                                ),
+                                Container(
+                                  height: maxHeight * 0.1,
+                                  width: maxWidth,
+                                  color: Colors.black.withOpacity(0.6),
+                                  child: Center(
+                                    child: Text(
+                                      data[index].shopName!,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+              ),
             ],
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        height: 70,
-        width: 240,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.grey[100],
-          boxShadow: [
-            BoxShadow(
-              color: Colors.blueGrey.shade300,
-              offset: const Offset(4.0, 4.0),
-              blurRadius: 15.0,
-              spreadRadius: 1.0,
-            ),
-            const BoxShadow(
-              color: Colors.white,
-              offset: Offset(-4.0, -4.0),
-              blurRadius: 5.0,
-              spreadRadius: 1.0,
-            )
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 40,
-              width: 90,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xff333399),
-                    Color(0xffC33764),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
-                    Icons.home_outlined,
-                    color: Colors.white,
-                  ),
-                  VerticalDivider(
-                    color: Colors.white,
-                    thickness: 1,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  Text(
-                    "Home",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.shopify_sharp,
-                color: Colors.grey.shade700,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.settings,
-                color: Colors.grey.shade700,
-              ),
-            ),
-          ],
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: Container(
+      //   alignment: Alignment.center,
+      //   height: 70,
+      //   width: 240,
+      //   decoration: BoxDecoration(
+      //     borderRadius: BorderRadius.circular(10),
+      //     color: Colors.grey[100],
+      //     boxShadow: [
+      //       BoxShadow(
+      //         color: Colors.blueGrey.shade300,
+      //         offset: const Offset(4.0, 4.0),
+      //         blurRadius: 15.0,
+      //         spreadRadius: 1.0,
+      //       ),
+      //       const BoxShadow(
+      //         color: Colors.white,
+      //         offset: Offset(-4.0, -4.0),
+      //         blurRadius: 5.0,
+      //         spreadRadius: 1.0,
+      //       )
+      //     ],
+      //   ),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Container(
+      //         height: 40,
+      //         width: 90,
+      //         decoration: BoxDecoration(
+      //           gradient: const LinearGradient(
+      //             begin: Alignment.topLeft,
+      //             end: Alignment.bottomRight,
+      //             colors: [
+      //               Color(0xff333399),
+      //               Color(0xffC33764),
+      //             ],
+      //           ),
+      //           borderRadius: BorderRadius.circular(4),
+      //         ),
+      //         child: Row(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: const [
+      //             Icon(
+      //               Icons.home_outlined,
+      //               color: Colors.white,
+      //             ),
+      //             VerticalDivider(
+      //               color: Colors.white,
+      //               thickness: 1,
+      //               indent: 10,
+      //               endIndent: 10,
+      //             ),
+      //             Text(
+      //               "Home",
+      //               style: TextStyle(color: Colors.white),
+      //             )
+      //           ],
+      //         ),
+      //       ),
+      //       Container(
+      //         alignment: Alignment.center,
+      //         child: Row(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: [
+      //             IconButton(
+      //               onPressed: () {},
+      //               icon: IconButton(
+      //                 color: Colors.grey.shade700,
+      //                 icon: const Icon(
+      //                   Icons.shopify_sharp,
+      //                 ),
+      //                 onPressed: () {},
+      //               ),
+      //             ),
+      //             IconButton(
+      //               onPressed: () {},
+      //               icon: Icon(
+      //                 Icons.settings,
+      //                 color: Colors.grey.shade700,
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
